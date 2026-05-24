@@ -57,6 +57,12 @@ version: 2.0
     ├── skills/         ←── 40 knowledge modules
     ├── workflows/      ←── 12 slash commands
     ├── scripts/        ←── Master validation scripts
+    ├── templates/      ←── Reference templates for .context/ files
+    │   ├── PICKUP.md          ←── Session handoff template
+    │   ├── PROJECT-MEMORY.md  ←── Persistent memory template
+    │   ├── PLAN-TEMPLATE.md   ←── Task plan template
+    │   ├── SPEC-TEMPLATE.md   ←── SDD spec template
+    │   └── ARCHAEOLOGY-TEMPLATE.md ←── Legacy map template
     └── .shared/
         └── ui-ux-pro-max/ ←── Design data
 ```

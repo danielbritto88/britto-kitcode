@@ -58,7 +58,7 @@ Estes arquivos vivem na pasta `.context/` e são criados automaticamente:
 - `.context/{task-slug}.md` — gerado pelo `/plan`
 - `.context/{task-slug}-spec.md` — gerado pelo `/plan` (com SDD)
 - `.context/ARCHAEOLOGY.md` — gerado pelo `/archaeo`
-- `.context/PROJECT-MEMORY.md` — criado na primeira sessão (use o `PROJECT-MEMORY.md` da raiz do KitCode como template)
+- `.context/PROJECT-MEMORY.md` — criado na primeira sessão (use `.agent/templates/PROJECT-MEMORY.md` como template)
 - `.context/CODEBASE.md` — criado pela IA ao mapear o projeto
 
 ### Opção 2 — Usar com Gemini CLI

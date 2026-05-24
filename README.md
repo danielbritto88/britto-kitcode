@@ -155,7 +155,7 @@ All data stored as indexed Markdown — the AI reads only the relevant section, 
 
 - **[GUIA-DO-USUARIO.md](./GUIA-DO-USUARIO.md)** — Full user guide in Portuguese (pt-BR)
 - **[.agent/ARCHITECTURE.md](./.agent/ARCHITECTURE.md)** — System architecture map
-- **[PLANO-IMPLEMENTACAO.md](./PLANO-IMPLEMENTACAO.md)** — Build log and implementation history
+- **[.agent/PLANO-IMPLEMENTACAO.md](./.agent/PLANO-IMPLEMENTACAO.md)** — Build log and implementation history
 
 ---
 

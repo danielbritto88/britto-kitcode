@@ -34,7 +34,7 @@ When activated via `/archaeo [module-or-path]`:
 1. Find all files in the target module/path
 2. Read entry points first (index.*, main.*, app.*)
 3. Trace dependencies (what does this module import/export?)
-4. Read the ARCHAEOLOGY-TEMPLATE.md for the output format
+4. Read `.agent/templates/ARCHAEOLOGY-TEMPLATE.md` for the output format
 ```
 
 ### Step 2: Map

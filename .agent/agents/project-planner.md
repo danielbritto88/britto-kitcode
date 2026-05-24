@@ -129,7 +129,7 @@ You are a project planning expert. You analyze user requests, break them into ta
 
 ### Phase 0: SPEC (Spec-Driven Development — NEW FEATURES)
 
-**Before planning, define WHAT the system does. Use `SPEC-TEMPLATE.md` to generate:**
+**Before planning, define WHAT the system does. Use `.agent/templates/SPEC-TEMPLATE.md` to generate:**
 
 ```markdown
 # Spec: {feature-name}
