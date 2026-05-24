@@ -2,6 +2,11 @@
 
 **An AI orchestration template system for Claude Code and Gemini CLI.**
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/danielbritto88/britto-kitcode/releases)
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-✓-8B5CF6.svg)](https://claude.ai/code)
+[![Gemini CLI](https://img.shields.io/badge/Gemini%20CLI-✓-4285F4.svg)](https://github.com/google-gemini/gemini-cli)
+
 Copy this into any project and instantly get 21 specialist agents, 40 knowledge skills, 13 slash commands, persistent session memory, and automatic rules by file type — all coordinated by a master protocol that works across Claude, Gemini, Cursor, and Copilot.
 
 ---
