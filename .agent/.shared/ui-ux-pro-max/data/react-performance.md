@@ -1,0 +1,87 @@
+# React Performance Patterns
+
+> Auto-generated from `react-performance.csv`. Sections enable targeted reads.
+
+## Async Waterfall
+
+| Issue | Keywords | Platform | Description | Do | Don't | Code Example Good | Code Example Bad | Severity |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Defer Await | async await defer branch | React/Next.js | Move await into branches where actually used to avoid blocking unused code paths | Move await operations into branches where they're needed | Await at top of function blocking all branches | if (skip) return { skipped: true }; const data = await fetch() | const data = await fetch(); if (skip) return { skipped: true } | Critical |
+| Promise.all Parallel | promise all parallel concurrent | React/Next.js | Execute independent async operations concurrently using Promise.all() | Use Promise.all() for independent operations | Sequential await for independent operations | const [user, posts] = await Promise.all([fetchUser(), fetchPosts()]) | const user = await fetchUser(); const posts = await fetchPosts() | Critical |
+| Dependency Parallelization | better-all dependency parallel | React/Next.js | Use better-all for operations with partial dependencies to maximize parallelism | Use better-all to start each task at earliest possible moment | Wait for unrelated data before starting dependent fetch | await all({ user() {}, config() {}, profile() { return fetch((await this.$.user).id) } }) | const [user, config] = await Promise.all([...]); const profile = await fetchProfile(user.id) | Critical |
+| API Route Optimization | api route waterfall promise | React/Next.js | In API routes start independent operations immediately even if not awaited yet | Start promises early and await late | Sequential awaits in API handlers | const sessionP = auth(); const configP = fetchConfig(); const session = await sessionP | const session = await auth(); const config = await fetchConfig() | Critical |
+| Suspense Boundaries | suspense streaming boundary | React/Next.js | Use Suspense to show wrapper UI faster while data loads | Wrap async components in Suspense boundaries | Await data blocking entire page render | <Suspense fallback={<Skeleton />}><DataDisplay /></Suspense> | const data = await fetchData(); return <DataDisplay data={data} /> | High |
+
+## Bundle Size
+
+| Issue | Keywords | Platform | Description | Do | Don't | Code Example Good | Code Example Bad | Severity |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Barrel Imports | barrel import direct path | React/Next.js | Import directly from source files instead of barrel files to avoid loading unused modules | Import directly from source path | Import from barrel/index files | import Check from 'lucide-react/dist/esm/icons/check' | import { Check } from 'lucide-react' | Critical |
+| Dynamic Imports | dynamic import lazy next | React/Next.js | Use next/dynamic to lazy-load large components not needed on initial render | Use dynamic() for heavy components | Import heavy components at top level | const Monaco = dynamic(() => import('./monaco'), { ssr: false }) | import { MonacoEditor } from './monaco-editor' | Critical |
+| Defer Third Party | analytics defer third-party | React/Next.js | Load analytics and logging after hydration since they don't block interaction | Load non-critical scripts after hydration | Include analytics in main bundle | const Analytics = dynamic(() => import('@vercel/analytics'), { ssr: false }) | import { Analytics } from '@vercel/analytics/react' | Medium |
+| Conditional Loading | conditional module lazy | React/Next.js | Load large data or modules only when a feature is activated | Dynamic import when feature enabled | Import large modules unconditionally | useEffect(() => { if (enabled) import('./heavy.js') }, [enabled]) | import { heavyData } from './heavy.js' | High |
+| Preload Intent | preload hover focus intent | React/Next.js | Preload heavy bundles on hover/focus before they're needed | Preload on user intent signals | Load only on click | onMouseEnter={() => import('./editor')} | onClick={() => import('./editor')} | Medium |
+
+## Server
+
+| Issue | Keywords | Platform | Description | Do | Don't | Code Example Good | Code Example Bad | Severity |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| React.cache Dedup | react cache deduplicate request | React/Next.js | Use React.cache() for server-side request deduplication within single request | Wrap data fetchers with cache() | Fetch same data multiple times in tree | export const getUser = cache(async () => await db.user.find()) | export async function getUser() { return await db.user.find() } | Medium |
+| LRU Cache Cross-Request | lru cache cross request | React/Next.js | Use LRU cache for data shared across sequential requests | Use LRU for cross-request caching | Refetch same data on every request | const cache = new LRUCache({ max: 1000, ttl: 5*60*1000 }) | Always fetch from database | High |
+| Minimize Serialization | serialization rsc boundary | React/Next.js | Only pass fields that client actually uses across RSC boundaries | Pass only needed fields to client components | Pass entire objects to client | <Profile name={user.name} /> | <Profile user={user} /> // 50 fields serialized | High |
+| Parallel Fetching | parallel fetch component composition | React/Next.js | Restructure components to parallelize data fetching in RSC | Use component composition for parallel fetches | Sequential fetches in parent component | <Header /><Sidebar /> // both fetch in parallel | const header = await fetchHeader(); return <><div>{header}</div><Sidebar /></> | Critical |
+| After Non-blocking | after non-blocking logging | React/Next.js | Use Next.js after() to schedule work after response is sent | Use after() for logging/analytics | Block response for non-critical operations | after(async () => { await logAction() }); return Response.json(data) | await logAction(); return Response.json(data) | Medium |
+
+## Client
+
+| Issue | Keywords | Platform | Description | Do | Don't | Code Example Good | Code Example Bad | Severity |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SWR Deduplication | swr dedup cache revalidate | React/Next.js | Use SWR for automatic request deduplication and caching | Use useSWR for client data fetching | Manual fetch in useEffect | const { data } = useSWR('/api/users', fetcher) | useEffect(() => { fetch('/api/users').then(setUsers) }, []) | Medium-High |
+| Event Listener Dedup | event listener deduplicate global | React/Next.js | Share global event listeners across component instances | Use useSWRSubscription for shared listeners | Register listener per component instance | useSWRSubscription('global-keydown', () => { window.addEventListener... }) | useEffect(() => { window.addEventListener('keydown', handler) }, []) | Low |
+
+## Rerender
+
+| Issue | Keywords | Platform | Description | Do | Don't | Code Example Good | Code Example Bad | Severity |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Defer State Reads | state read callback subscription | React/Next.js | Don't subscribe to state only used in callbacks | Read state on-demand in callbacks | Subscribe to state used only in handlers | const handleClick = () => { const params = new URLSearchParams(location.search) } | const params = useSearchParams(); const handleClick = () => { params.get('ref') } | Medium |
+| Memoized Components | memo extract expensive | React/Next.js | Extract expensive work into memoized components for early returns | Extract to memo() components | Compute expensive values before early return | const UserAvatar = memo(({ user }) => ...); if (loading) return <Skeleton /> | const avatar = useMemo(() => compute(user)); if (loading) return <Skeleton /> | Medium |
+| Narrow Dependencies | effect dependency primitive | React/Next.js | Specify primitive dependencies instead of objects in effects | Use primitive values in dependency arrays | Use object references as dependencies | useEffect(() => { console.log(user.id) }, [user.id]) | useEffect(() => { console.log(user.id) }, [user]) | Low |
+| Derived State | derived boolean subscription | React/Next.js | Subscribe to derived booleans instead of continuous values | Use derived boolean state | Subscribe to continuous values | const isMobile = useMediaQuery('(max-width: 767px)') | const width = useWindowWidth(); const isMobile = width < 768 | Medium |
+| Functional setState | functional setstate callback | React/Next.js | Use functional setState updates for stable callbacks and no stale closures | Use functional form: setState(curr => ...) | Reference state directly in setState | setItems(curr => [...curr, newItem]) | setItems([...items, newItem]) // items in deps | Medium |
+| Lazy State Init | usestate lazy initialization | React/Next.js | Pass function to useState for expensive initial values | Use function form for expensive init | Compute expensive value directly | useState(() => buildSearchIndex(items)) | useState(buildSearchIndex(items)) // runs every render | Medium |
+| Transitions | starttransition non-urgent | React/Next.js | Mark frequent non-urgent state updates as transitions | Use startTransition for non-urgent updates | Block UI on every state change | startTransition(() => setScrollY(window.scrollY)) | setScrollY(window.scrollY) // blocks on every scroll | Medium |
+
+## Rendering
+
+| Issue | Keywords | Platform | Description | Do | Don't | Code Example Good | Code Example Bad | Severity |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SVG Animation Wrapper | svg animation wrapper div | React/Next.js | Wrap SVG in div and animate wrapper for hardware acceleration | Animate div wrapper around SVG | Animate SVG element directly | <div class='animate-spin'><svg>...</svg></div> | <svg class='animate-spin'>...</svg> | Low |
+| Content Visibility | content-visibility auto | React/Next.js | Apply content-visibility: auto to defer off-screen rendering | Use content-visibility for long lists | Render all list items immediately | .item { content-visibility: auto; contain-intrinsic-size: 0 80px } | Render 1000 items without optimization | High |
+| Hoist Static JSX | hoist static jsx element | React/Next.js | Extract static JSX outside components to avoid re-creation | Hoist static elements to module scope | Create static elements inside components | const skeleton = <div class='animate-pulse' />; function C() { return skeleton } | function C() { return <div class='animate-pulse' /> } | Low |
+| Hydration No Flicker | hydration mismatch flicker | React/Next.js | Use inline script to set client-only data before hydration | Inject sync script for client-only values | Use useEffect causing flash | <script dangerouslySetInnerHTML={{ __html: 'el.className = localStorage.theme' }} /> | useEffect(() => setTheme(localStorage.theme), []) // flickers | Medium |
+| Conditional Render | conditional render ternary | React/Next.js | Use ternary instead of && when condition can be 0 or NaN | Use explicit ternary for conditionals | Use && with potentially falsy numbers | {count > 0 ? <Badge>{count}</Badge> : null} | {count && <Badge>{count}</Badge>} // renders '0' | Low |
+| Activity Component | activity show hide preserve | React/Next.js | Use Activity component to preserve state/DOM for toggled components | Use Activity for expensive toggle components | Unmount/remount on visibility toggle | <Activity mode={isOpen ? 'visible' : 'hidden'}><Menu /></Activity> | {isOpen && <Menu />} // loses state | Medium |
+
+## JS Perf
+
+| Issue | Keywords | Platform | Description | Do | Don't | Code Example Good | Code Example Bad | Severity |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Batch DOM CSS | batch dom css reflow | React/Next.js | Group CSS changes via classes or cssText to minimize reflows | Use class toggle or cssText | Change styles one property at a time | element.classList.add('highlighted') | el.style.width='100px'; el.style.height='200px' | Medium |
+| Index Map Lookup | map index lookup find | React/Next.js | Build Map for repeated lookups instead of multiple .find() calls | Build index Map for O(1) lookups | Use .find() in loops | const byId = new Map(users.map(u => [u.id, u])); byId.get(id) | users.find(u => u.id === order.userId) // O(n) each time | Low-Medium |
+| Cache Property Access | cache property loop | React/Next.js | Cache object property lookups in hot paths | Cache values before loops | Access nested properties in loops | const val = obj.config.settings.value; for (...) process(val) | for (...) process(obj.config.settings.value) | Low-Medium |
+| Cache Function Results | memoize cache function | React/Next.js | Use module-level Map to cache repeated function results | Use Map cache for repeated calls | Recompute same values repeatedly | const cache = new Map(); if (cache.has(x)) return cache.get(x) | slugify(name) // called 100 times same input | Medium |
+| Cache Storage API | localstorage cache read | React/Next.js | Cache localStorage/sessionStorage reads in memory | Cache storage reads in Map | Read storage on every call | if (!cache.has(key)) cache.set(key, localStorage.getItem(key)) | localStorage.getItem('theme') // every call | Low-Medium |
+| Combine Iterations | combine filter map loop | React/Next.js | Combine multiple filter/map into single loop | Single loop for multiple categorizations | Chain multiple filter() calls | for (u of users) { if (u.isAdmin) admins.push(u); if (u.isTester) testers.push(u) } | users.filter(admin); users.filter(tester); users.filter(inactive) | Low-Medium |
+| Length Check First | length check array compare | React/Next.js | Check array lengths before expensive comparisons | Early return if lengths differ | Always run expensive comparison | if (a.length !== b.length) return true; // then compare | a.sort().join() !== b.sort().join() // even when lengths differ | Medium-High |
+| Early Return | early return exit function | React/Next.js | Return early when result is determined to skip processing | Return immediately on first error | Process all items then check errors | for (u of users) { if (!u.email) return { error: 'Email required' } } | let hasError; for (...) { if (!email) hasError=true }; if (hasError)... | Low-Medium |
+| Hoist RegExp | regexp hoist module | React/Next.js | Don't create RegExp inside render - hoist or memoize | Hoist RegExp to module scope | Create RegExp every render | const EMAIL_RE = /^[^@]+@[^@]+$/; function validate() { EMAIL_RE.test(x) } | function C() { const re = new RegExp(pattern); re.test(x) } | Low-Medium |
+| Loop Min Max | loop min max sort | React/Next.js | Use loop for min/max instead of sort - O(n) vs O(n log n) | Single pass loop for min/max | Sort array to find min/max | let max = arr[0]; for (x of arr) if (x > max) max = x | arr.sort((a,b) => b-a)[0] // O(n log n) | Low |
+| Set Map Lookups | set map includes has | React/Next.js | Use Set/Map for O(1) lookups instead of array.includes() | Convert to Set for membership checks | Use .includes() for repeated checks | const allowed = new Set(['a','b']); allowed.has(id) | const allowed = ['a','b']; allowed.includes(id) | Low-Medium |
+| toSorted Immutable | tosorted sort immutable | React/Next.js | Use toSorted() instead of sort() to avoid mutating arrays | Use toSorted() for immutability | Mutate arrays with sort() | users.toSorted((a,b) => a.name.localeCompare(b.name)) | users.sort((a,b) => a.name.localeCompare(b.name)) // mutates | Medium-High |
+
+## Advanced
+
+| Issue | Keywords | Platform | Description | Do | Don't | Code Example Good | Code Example Bad | Severity |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Event Handler Refs | useeffectevent ref handler | React/Next.js | Store callbacks in refs for stable effect subscriptions | Use useEffectEvent for stable handlers | Re-subscribe on every callback change | const onEvent = useEffectEvent(handler); useEffect(() => { listen(onEvent) }, []) | useEffect(() => { listen(handler) }, [handler]) // re-subscribes | Low |
+| useLatest Hook | uselatest ref callback | React/Next.js | Access latest values in callbacks without adding to dependency arrays | Use useLatest for fresh values in stable callbacks | Add callback to effect dependencies | const cbRef = useLatest(cb); useEffect(() => { setTimeout(() => cbRef.current()) }, []) | useEffect(() => { setTimeout(() => cb()) }, [cb]) // re-runs | Low |
