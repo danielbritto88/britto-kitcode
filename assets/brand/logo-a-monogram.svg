@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Tanque Cheio — Logo A: Monograma TC editorial</title>
+  <rect width="256" height="256" fill="#000000"/>
+  <g fill="#E8A85C">
+    <!-- Letra T em Bodoni-style: serifa alta + base completa -->
+    <path d="M48 60 L132 60 L132 76 L98 76 L98 196 L82 196 L82 76 L48 76 Z"/>
+    <!-- Serifa esquerda do T (toque editorial) -->
+    <rect x="44" y="60" width="8" height="3"/>
+    <rect x="128" y="60" width="8" height="3"/>
+    <!-- Serifa do pé do T -->
+    <rect x="78" y="193" width="24" height="4"/>
+    <!-- Letra C com abertura precisa -->
+    <path d="M208 78 C208 67 196 60 180 60 L156 60 C144 60 134 70 134 84 L134 172 C134 186 144 196 156 196 L180 196 C196 196 208 189 208 178 L208 168 L192 168 L192 175 C192 179 188 182 182 182 L162 182 C158 182 154 178 154 173 L154 83 C154 78 158 74 162 74 L182 74 C188 74 192 77 192 81 L192 88 L208 88 Z"/>
+  </g>
+  <!-- Linha de "tanque cheio" sutil sob o monograma -->
+  <g>
+    <rect x="48" y="216" width="160" height="2" fill="#1F1F23"/>
+    <rect x="48" y="216" width="160" height="2" fill="#E8A85C"/>
+  </g>
+  <!-- Pequena marca "F" (full) à direita da linha, em jost-style -->
+  <text x="208" y="232" font-family="Georgia, serif" font-size="11" fill="#A39E94" font-style="italic">f.</text>
+</svg>

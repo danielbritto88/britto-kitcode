@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Tanque Cheio — Logo B: Gota-ponteiro (combustível + medidor)</title>
+  <rect width="256" height="256" fill="#000000"/>
+  <!-- Arco de medidor (semicírculo) -->
+  <g fill="none" stroke="#1F1F23" stroke-width="3" stroke-linecap="round">
+    <path d="M 56 168 A 72 72 0 0 1 200 168"/>
+  </g>
+  <!-- Arco preenchido até o "cheio" (3/4 do trajeto, indicando full) -->
+  <g fill="none" stroke="#E8A85C" stroke-width="3" stroke-linecap="round">
+    <path d="M 56 168 A 72 72 0 0 1 200 168" stroke-dasharray="226" stroke-dashoffset="0"/>
+  </g>
+  <!-- Marcadores E e F nas extremidades -->
+  <g fill="#5C5852" font-family="Georgia, serif" font-size="14" font-style="italic">
+    <text x="48" y="186" text-anchor="middle">e</text>
+    <text x="208" y="186" text-anchor="middle">f</text>
+  </g>
+  <!-- Gota central — combustível, formada por curvas Bézier -->
+  <g fill="#E8A85C">
+    <path d="M 128 76
+             C 128 76, 96 116, 96 138
+             C 96 156, 110 170, 128 170
+             C 146 170, 160 156, 160 138
+             C 160 116, 128 76, 128 76 Z"/>
+  </g>
+  <!-- Reflexo sutil na gota -->
+  <g fill="#000000" opacity="0.15">
+    <ellipse cx="118" cy="135" rx="8" ry="14"/>
+  </g>
+  <!-- Ponto base do medidor (pivô do "ponteiro" implícito) -->
+  <circle cx="128" cy="168" r="3" fill="#F5F1EA"/>
+</svg>

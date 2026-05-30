@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR" class="theme-brutal">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#F4EFE6" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Tanque Cheio" />
+    <meta name="description" content="Controle de automóveis — combustível, manutenção e financeiro" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tanque Cheio" />
+    <meta property="og:description" content="Controle de automóveis — combustível, manutenção e financeiro" />
+    <meta property="og:image" content="/icons/pwa-512.png" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Tanque Cheio",
+      "description": "Controle de automóveis — combustível, manutenção e financeiro",
+      "author": { "@type": "Person", "name": "Daniel Britto" },
+      "datePublished": "2026-04-28",
+      "dateModified": "2026-04-28",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Android, iOS"
+    }
+    </script>
+
+    <title>Tanque Cheio</title>
+  </head>
+  <body class="antialiased">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-3 focus:bg-surface focus:text-text">
+      Skip to main content
+    </a>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "tanquecheio-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8787",
+    "deploy": "wrangler deploy",
+    "types": "wrangler types",
+    "db:migrate:local": "wrangler d1 execute tanquecheio-db --local --file=./migrations/0001_init.sql && wrangler d1 execute tanquecheio-db --local --file=./migrations/0002_devices.sql && wrangler d1 execute tanquecheio-db --local --file=./migrations/0003_push_device_id.sql",
+    "db:migrate:remote": "wrangler d1 execute tanquecheio-db --remote --file=./migrations/0001_init.sql && wrangler d1 execute tanquecheio-db --remote --file=./migrations/0002_devices.sql && wrangler d1 execute tanquecheio-db --remote --file=./migrations/0003_push_device_id.sql"
+  },
+  "dependencies": {
+    "hono": "^4.7.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250428.0",
+    "typescript": "~5.8.3",
+    "wrangler": "^4.85.0"
+  }
+}

@@ -1,0 +1,94 @@
+/* Tanque Cheio — Tema "Brutalismo Elegante"
+   Fundo creme, bordas pretas, sombras deslocadas, cores primárias saturadas.
+   Aplicado via classe .theme-brutal no <html>.
+   Tokens paralelos ao tokens.css — o tema Telemetria Íntima permanece intacto. */
+
+.theme-brutal {
+  /* === Fundo — creme quente, papel, não branco frio === */
+  --bg:           #F4EFE6;
+  --bg-grid:      #EDE7DC;
+  --surface:      #FEFCF8;
+  --surface-2:    #F4EFE6;
+  --surface-elev: #FEFCF8;
+  --border:       #0D0D0D;   /* borda preta — coração do brutalismo */
+  --border-soft:  #D8D2C7;
+
+  background-color: var(--bg);
+  background-image: 
+    linear-gradient(to right, rgba(13, 13, 13, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(13, 13, 13, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-attachment: fixed;
+
+  /* === Texto — preto real, não cinza === */
+  --text:         #0D0D0D;
+  --text-muted:   #5A5550;
+  --text-faint:   #A09890;
+  --text-ghost:   #C8C2B8;
+
+  /* === Acento primário — amarelo limão vibrante === */
+  --accent:        #F5D000;
+  --accent-bright: #FFE030;
+  --accent-soft:   rgba(245, 208, 0, 0.20);
+  --accent-glow:   rgba(245, 208, 0, 0.30);
+  --accent-fg:     #0D0D0D;   /* texto SOBRE amarelo: sempre preto */
+
+  /* === Semânticos — saturados, intencionais === */
+  --positive:      #00B870;
+  --positive-soft: rgba(0, 184, 112, 0.14);
+  --warning:       #E8A000;
+  --warning-soft:  rgba(232, 160, 0, 0.14);
+  --danger:        #E83A3A;
+  --danger-soft:   rgba(232, 58, 58, 0.14);
+
+  /* === Azul para ação secundária === */
+  --info:          #2860F0;
+  --info-soft:     rgba(40, 96, 240, 0.12);
+
+  /* === Grafite (herança) === */
+  --graphite:      #4A6A8E;
+  --graphite-soft: rgba(74, 106, 142, 0.12);
+
+  /* === Sombra brutalista — deslocada, SEM blur (característica do estilo) === */
+  --shadow-brutal-xs: 2px 2px 0px #0D0D0D;
+  --shadow-brutal-sm: 3px 3px 0px #0D0D0D;
+  --shadow-brutal-md: 4px 4px 0px #0D0D0D;
+  --shadow-brutal-lg: 6px 6px 0px #0D0D0D;
+
+  /* Sombras padrão — reaproveitadas por componentes internos */
+  --shadow-sm:  0 1px 2px rgba(0,0,0,.08);
+  --shadow-md:  0 2px 8px rgba(0,0,0,.10);
+  --shadow-lg:  0 4px 16px rgba(0,0,0,.12);
+  --shadow-glass: none;
+
+  /* Halos — desativados no brutalismo (luz vem de bordas, não de glow) */
+  --halo-accent: none;
+  --halo-accent-strong: none;
+
+  /* Glass — não existe no brutalismo; fallback sólido */
+  --glass-blur: none;
+  --glass-bg:   var(--surface);
+
+  /* === Raios — arredondados mas não "flutuantes" === */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  18px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* === Espaçamento === */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* === Nav === */
+  --nav-h:    64px;
+  --safe-bot: env(safe-area-inset-bottom, 0px);
+}

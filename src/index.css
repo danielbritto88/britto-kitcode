@@ -1,0 +1,173 @@
+/* Fonts — @fontsource (offline-ready, sem chamada Google) */
+@import '@fontsource-variable/bodoni-moda';
+@import '@fontsource-variable/jost';
+@import '@fontsource-variable/jetbrains-mono';
+
+/* Design tokens */
+@import './styles/tokens.css';
+@import './styles/tokens-brutal.css';
+
+/* Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Base ===== */
+@layer base {
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  input, textarea, select, [contenteditable] {
+    user-select: text;
+    -webkit-user-select: text;
+    -webkit-touch-callout: default;
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(to right, rgba(13, 13, 13, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(13, 13, 13, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: var(--text);
+    font-family: 'Jost Variable', 'Jost', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    font-feature-settings: 'tnum' 1, 'lnum' 1;
+    overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .theme-brutal body {
+    background-color: transparent;
+  }
+
+  #root {
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  ::selection { background: var(--accent-soft); color: var(--text); }
+
+  /* Neutraliza o fundo branco que o Chrome injeta em campos com autofill */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--surface) inset !important;
+    -webkit-text-fill-color: var(--text) !important;
+    caret-color: var(--text);
+    transition: background-color 9999s ease-in-out 0s;
+  }
+}
+
+/* ===== Utilitários de identidade "Telemetria Íntima" =====
+   Documentado em PROJETO.md §8.2. Não inventar variantes — usar só estas. */
+@layer utilities {
+  /* Bodoni — apenas em escala ≥ 56px. Em corpo, vira ruído. */
+  .font-display {
+    font-family: 'Bodoni Moda Variable', 'Bodoni Moda', Georgia, serif;
+    font-feature-settings: 'tnum' 1, 'lnum' 1;
+  }
+
+  /* Hero — número-protagonista da tela.
+     Bodoni 500, opsz 96, clamp 56–128px. Halo opcional via --halo-accent. */
+  .text-hero {
+    font-family: 'Bodoni Moda Variable', Georgia, serif;
+    font-variation-settings: 'opsz' 96, 'wght' 500;
+    font-feature-settings: 'tnum' 1, 'lnum' 1;
+    font-size: clamp(3.5rem, 18vw, 8rem);   /* 56px → 128px */
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--text);
+  }
+
+  /* Editorial — títulos de seção e marca (32–48px) */
+  .text-editorial {
+    font-family: 'Bodoni Moda Variable', Georgia, serif;
+    font-variation-settings: 'opsz' 72, 'wght' 300;
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+  }
+
+  /* Label de instrumento — ficha técnica, ≤ 11px, uppercase, espaçado */
+  .text-instrument-label {
+    font-family: 'Jost Variable', 'Jost', system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 0.6875rem;            /* 11px */
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* Mecânica — hodômetro, placa, ID. JetBrains Mono tabular. */
+  .text-mech {
+    font-family: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 500;
+    font-feature-settings: 'tnum' 1, 'lnum' 1, 'zero' 1;
+    letter-spacing: 0.02em;
+  }
+
+  /* Halo radial âmbar atrás de um conteúdo (relative parent + z-index) */
+  .halo-accent::before {
+    content: '';
+    position: absolute;
+    inset: -20% -10%;
+    background: var(--halo-accent);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .halo-accent-strong::before {
+    content: '';
+    position: absolute;
+    inset: -25% -15%;
+    background: var(--halo-accent-strong);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* Glass — tab bar flutuante, HUD toast.
+     Fallback automático para --surface-elev em browsers sem suporte. */
+  .glass {
+    background: var(--surface-elev);
+  }
+
+  @supports (backdrop-filter: blur(0)) or (-webkit-backdrop-filter: blur(0)) {
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+    }
+  }
+
+  /* Reduced motion: neutraliza halos animados, agulhas físicas, ignição */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

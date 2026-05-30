@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="4" fill="#F4EFE6" stroke="#0D0D0D" stroke-width="2"/>
+  <rect x="2" y="2" width="28" height="28" rx="2" fill="none" stroke="#0D0D0D" stroke-width="1" opacity="0.15"/>
+  <text x="16" y="22" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="16" font-weight="700"
+        fill="#0D0D0D">TC</text>
+  <rect x="6" y="25" width="20" height="2" fill="#F5D000"/>
+</svg>

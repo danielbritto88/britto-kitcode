@@ -1,0 +1,118 @@
+/* Tanque Cheio — Design Tokens v2 ("Painel Noturno v2", Telemetria Íntima)
+   v1.5: paleta âmbar + grafite frio, halos radiais, surface-elev para glass.
+   Modo escuro = padrão (OLED Android-first), com leve respiração no preto.
+   Acessibilidade: AAA em texto principal, AA mínimo no resto.
+   Ver PROJETO.md §8.3. */
+
+:root {
+  /* === Fundo === */
+  --bg:           #07070A;   /* preto que respira (não 100%) */
+  --bg-deep:      #000000;   /* OLED puro: splash, halo, ignition */
+  --surface:      #0E0E12;   /* card base */
+  --surface-2:    #16161C;   /* card elevado */
+  --surface-elev: #1C1C24;   /* sheet, modal, tab bar flutuante */
+  --border:       #21212A;   /* divisores duros */
+  --border-soft:  #16161C;   /* divisores invisíveis (apenas estrutura) */
+
+  /* === Texto — pergaminho, NÃO branco frio === */
+  --text:         #F2EDE4;
+  --text-muted:   #9E9890;
+  --text-faint:   #5A5650;
+  --text-ghost:   #38353F;   /* placeholder de número Bodoni */
+
+  /* === Luz primária — âmbar de instrumento automotivo === */
+  --accent:       #E8A85C;
+  --accent-bright:#F4BF7A;            /* highlight, agulha viva */
+  --accent-soft:  rgba(232, 168, 92, 0.12);
+  --accent-glow:  rgba(232, 168, 92, 0.16);
+
+  /* === Acento secundário — grafite frio (NOVO em v1.5) ===
+     Carrega métricas que não exigem ação. Hierarquia de cor = atenção. */
+  --graphite:     #5C7A9E;
+  --graphite-soft:rgba(92, 122, 158, 0.10);
+
+  /* === Semânticos === */
+  --positive:     #7CB987;
+  --positive-soft:rgba(124, 185, 135, 0.12);
+  --warning:      #D9A441;
+  --warning-soft: rgba(217, 164, 65, 0.12);
+  --danger:       #C85B5B;
+  --danger-soft:  rgba(200, 91, 91, 0.12);
+
+  /* === Espaçamento === */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* === Bordas === */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;        /* tab bar flutuante */
+  --radius-full: 9999px;
+
+  /* === Sombras (quase-preto, não azul) === */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.6);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.8);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,.9);
+  --shadow-glass: 0 8px 32px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.04);
+
+  /* === Halo radial âmbar (luz interna do painel) === */
+  --halo-accent: radial-gradient(closest-side, rgba(232,168,92,.16), transparent 70%);
+  --halo-accent-strong: radial-gradient(closest-side, rgba(232,168,92,.28), transparent 65%);
+
+  /* === Glass (tab bar, HUD toast) === */
+  --glass-blur: blur(24px) saturate(180%);
+  --glass-bg:   rgba(28, 28, 36, 0.72);
+
+  /* === Bottom nav height + safe area === */
+  --nav-h:    64px;
+  --safe-bot: env(safe-area-inset-bottom, 0px);
+
+  /* === Spring presets (Framer Motion) ===
+     Documentado para uso consistente; aplicado via JS, mas nomes daqui. */
+  /* spring-snap:    damping 24, stiffness 320, mass 0.6 — tap feedback */
+  /* spring-default: damping 20, stiffness 260, mass 0.6 — entradas */
+  /* spring-needle:  damping 12, stiffness  90, mass 1.0 — agulha física */
+}
+
+/* Modo claro — "manual de oficina" (papel pergaminho) */
+.theme-light {
+  --bg:           #EEE8DC;
+  --bg-deep:      #FFFFFF;
+  --surface:      #F8F4EC;
+  --surface-2:    #E2DCCF;
+  --surface-elev: #F8F4EC;
+  --border:       #C8C2B5;
+  --border-soft:  #E2DCCF;
+
+  --text:         #1F1B16;
+  --text-muted:   #5C5650;
+  --text-faint:   #908A82;
+  --text-ghost:   #C8C2B5;
+
+  --accent:       #A26521;            /* âmbar tostado para contraste */
+  --accent-bright:#C58532;
+  --accent-soft:  rgba(162, 101, 33, 0.12);
+  --accent-glow:  rgba(162, 101, 33, 0.18);
+
+  --graphite:     #2E4A6B;
+  --graphite-soft:rgba(46, 74, 107, 0.10);
+
+  --halo-accent:  radial-gradient(closest-side, rgba(162,101,33,.14), transparent 70%);
+  --halo-accent-strong: radial-gradient(closest-side, rgba(162,101,33,.22), transparent 65%);
+
+  --glass-bg:     rgba(248, 244, 236, 0.78);
+
+  --shadow-sm:    0 1px 3px rgba(0,0,0,.08);
+  --shadow-md:    0 4px 12px rgba(0,0,0,.12);
+  --shadow-lg:    0 12px 32px rgba(0,0,0,.16);
+  --shadow-glass: 0 8px 32px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.6);
+}
